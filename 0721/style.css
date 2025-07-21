@@ -25,3 +25,9 @@ h1 {
 ul {
     padding-left: 20px;
 }
+.copyright {
+    text-align: center;
+    font-size: 0.8em;
+    color: #333;
+    margin-top: 20px;
+}
