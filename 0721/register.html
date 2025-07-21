@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <script>
+        usr="";
+        function readName() {
+            usr = document.getElementById("username").value;
+            alert("Welcome, " + usr + "!");
+        }
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (username == "" || email == "" || password == "" || confirmPassword == "") {
+                alert("All fields must be filled out!");
+                return false;
+            }
+            if (password.length != 8) {
+                alert("Password must be exactly 8 characters long!");
+                return false;
+            }
+            if (password != confirmPassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+            return true;
+        }
+        function passwordStrength() {
+            var password = document.getElementById("password").value;
+            if (password.length != 8) {
+                alert("Password must be exactly 8 characters long!");
+                document.getElementById("passwordErrorText1").innerHTML = "Password must be exactly 8 characters long!";
+                return false;
+            }
+            return true;
+        }
+        function passwordConfirm() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            if (password != confirmPassword) {
+                alert("Passwords do not match!");
+                document.getElementById("passwordErrorText2").innerHTML = "Passwords do not match!";
+                document.getElementById("confirmPassword").value = "";
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <body>
+        <h1>User Registration</h1>
+        <form action="register.html" method="post" name="regForm">
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td><input type="text" id="username" name="username" required></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" id="email" name="email" required></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>
+                        <input type="password" id="password" name="password" required onblur="passwordStrength()">
+                        <span id="passwordErrorText1" style="color: red; font-size: smaller;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Confirm Password:</td>
+                    <td>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required onblur="passwordConfirm()">
+                        <span id="passwordErrorText2" style="color: red; font-size: smaller;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Register" onclick="if (validateForm() && passwordStrength()) { readName(); }">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

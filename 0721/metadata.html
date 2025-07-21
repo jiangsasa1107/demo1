@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Metadata</title>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-left: 8px;
+        }
+
+        .result {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 12px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>User Metadata</h1>
+    <form id="metaForm" autocomplete="off" novalidate>
+        <table>
+            <tr>
+                <td>名称：</td>
+                <td>
+                    <input type="text" id="nickname" name="nickname" required>
+                    <span class="error" id="err_nickname"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>年龄：</td>
+                <td>
+                    <input type="text" id="age" name="age" required>
+                    <span class="error" id="err_age"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>性别：</td>
+                <td>
+                    <input type="radio" id="man" name="gender" value="男"> 男
+                    <input type="radio" id="woman" name="gender" value="女"> 女
+                    <span class="error" id="err_gender"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>地址：</td>
+                <td>
+                    <textarea id="address" name="address"></textarea>
+                    <span class="error" id="err_address"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>城市：</td>
+                <td>
+                    <select id="city" name="city" required>
+                        <option value="">请选择城市</option>
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广州">广州</option>
+                        <option value="深圳">深圳</option>
+                    </select>
+                    <span class="error" id="err_city"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>邮政编码：</td>
+                <td>
+                    <input type="text" id="zipcode" name="zipcode" required>
+                    <span class="error" id="err_zipcode"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>爱好：</td>
+                <td>
+                    <input type="checkbox" id="hobby1" name="hobby" value="看电影"> 看电影
+                    <input type="checkbox" id="hobby2" name="hobby" value="唱歌"> 唱歌
+                    <input type="checkbox" id="hobby3" name="hobby" value="听音乐"> 听音乐
+                    <input type="checkbox" id="hobby4" name="hobby" value="阅读"> 阅读
+                    <input type="checkbox" id="hobby5" name="hobby" value="户外运动"> 户外运动
+                    <input type="checkbox" id="hobby6" name="hobby" value="室内运动"> 室内运动
+                    <span class="error" id="err_hobby"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button type="submit">提交</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div id="result" class="result" style="display:none;"></div>
+    <script>
+        document.getElementById('metaForm').onsubmit = function (e) {
+            e.preventDefault();
+            let valid = true;
+
+            // 清除所有错误
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            // 名称
+            const nickname = document.getElementById('nickname').value.trim();
+            if (!nickname) {
+                document.getElementById('err_nickname').textContent = '名称不能为空';
+                valid = false;
+            }
+
+            // 年龄
+            const age = document.getElementById('age').value.trim();
+            if (!age) {
+                document.getElementById('err_age').textContent = '年龄不能为空';
+                valid = false;
+            } else if (!/^\d+$/.test(age) || Number(age) < 10 || Number(age) > 100) {
+                document.getElementById('err_age').textContent = '年龄必须是10到100之间的数字';
+                valid = false;
+            }
+
+            // 性别
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                document.getElementById('err_gender').textContent = '请选择性别';
+                valid = false;
+            }
+
+            // 地址（可选，不必填）
+
+            // 城市
+            const city = document.getElementById('city').value;
+            if (!city) {
+                document.getElementById('err_city').textContent = '请选择城市';
+                valid = false;
+            }
+
+            // 邮政编码
+            const zipcode = document.getElementById('zipcode').value.trim();
+            if (!zipcode) {
+                document.getElementById('err_zipcode').textContent = '邮政编码不能为空';
+                valid = false;
+            } else if (!/^\d{6}$/.test(zipcode)) {
+                document.getElementById('err_zipcode').textContent = '邮政编码必须是6位数字';
+                valid = false;
+            }
+
+            // 爱好
+            const hobbies = Array.from(document.querySelectorAll('input[name="hobby"]:checked')).map(cb => cb.value);
+            if (hobbies.length === 0) {
+                document.getElementById('err_hobby').textContent = '请选择至少一个爱好';
+                valid = false;
+            }
+
+            if (valid) {
+                // 展示结果
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerHTML = `
+                    <strong>提交成功！您的信息如下：</strong><br>
+                    名称：${nickname}<br>
+                    年龄：${age}<br>
+                    性别：${gender ? gender.value : ''}<br>
+                    地址：${document.getElementById('address').value.trim()}<br>
+                    城市：${city}<br>
+                    邮政编码：${zipcode}<br>
+                    爱好：${hobbies.join('，')}
+                `;
+            } else {
+                document.getElementById('result').style.display = 'none';
+            }
+        };
+    </script>
+</body>
+
+</html>

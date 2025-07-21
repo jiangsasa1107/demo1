@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>个人简介</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        // window.onload = function() {
+        //     document.body.style.backgroundColor = "grey";
+        // }
+        function myfunction() {
+            document.body.style.backgroundColor = "grey";
+        }
+        function imgSmall() {
+            var img = document.getElementById("myimg");
+            img.style.width = "120px";
+            img.style.height = "120px";
+            img.style.borderRadius = "50%";
+        }
+        function imgBig() {
+            var img = document.getElementById("myimg");
+            img.style.width = "150px";
+            img.style.height = "150px";
+            img.style.borderRadius = "50%";
+        }
+    </script>
+</head>
+
+<body onload="myfunction()">
+    <div class="container">
+        <img id="myimg" src="avatar.jpg" alt="头像" class="avatar" alt="头像" onmouseover="imgBig()" onmouseout="imgSmall()">
+        <h1>姓名：Kyran</h1>
+        <h2>教育背景</h2>
+        <ul>
+            <li>本科：家里蹲大学 计算机科学与技术</li>
+            <li>硕士：家里蹲大学 计算机科学与技术</li>
+        </ul>
+        <h2>工作经验</h2>
+        <ul>
+            <li>2022-2024：XX科技有限公司 前端开发工程师</li>
+            <li>2024-至今：XX互联网公司 高级前端工程师</li>
+        </ul>
+        <h2>爱好</h2>
+        <ul>
+            <li>编程</li>
+            <li>摄影</li>
+            <li>旅行</li>
+            <li>阅读</li>
+        </ul>
+    </div>
+</body>
+
+</html>
