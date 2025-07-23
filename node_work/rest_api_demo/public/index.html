@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using API</title>
+</head>
+
+<body>
+    <h1>List of Users</h1>
+    <ul id="userlist">
+    </ul>
+    <h1>Add new Users</h1>
+    <form id="addUserForm">
+        <input type="text" id="username" placeholder="Enter username" required>
+        <button type="submit">Add User</button>
+    </form>
+    <script>
+        const userList = document.getElementById('userlist');
+        const userForm = document.getElementById('addUserForm');
+        const username = document.getElementById('username');
+
+        function fetAllUsers() {
+            fetch('/users')
+                .then(res => res.json())
+                .then(users=> {
+                    userList.innerHTML = '';
+                    users.forEach(u => {
+                        const li = document.createElement('li');
+                        li.textContent = u.name;
+                        userList.appendChild(li);                        
+                    });
+                })
+        }
+        userForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = username.value;
+            if(!name) return;
+            fetch('/users', {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({name})
+            })
+            .then(res => res.json())
+            .then(() => {
+                username.value = '';
+                fetAllUsers();
+            })
+        });
+
+        // e.preventDefault();
+        //     const name = username.value;
+        //     fetch('/users', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({ name })
+        //     })
+        //     .then(res => res.json())
+        //     .then(user => {
+        //         const li = document.createElement('li');
+        //         li.textContent = user.name;
+        //         userList.appendChild(li);
+        //         username.value = '';
+        //     });
+
+        fetAllUsers();
+    </script>
+</body>
+
+</html>
